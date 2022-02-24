@@ -14,9 +14,9 @@ class VAE(tf.keras.Model):
         self.latentFeatures = latentFeatures
         self.alpha = alpha
         self.encoder = self._encoder()
-        self.encoder.summary() # print summary of encoder model
+        #self.encoder.summary() # print summary of encoder model
         self.decoder = self._decoder()
-        self.decoder.summary() # print summary of encoder model
+        #self.decoder.summary() # print summary of encoder model
 
     def _encoder(self):
         """Encoder of the gait mapper.
