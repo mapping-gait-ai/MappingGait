@@ -1,4 +1,4 @@
-"""Documentation about gait_mapper"""
+"""Mapping human gait using unsupervised AI"""
 import logging
 
 
