@@ -8,14 +8,14 @@ class VAE(tf.keras.Model):
     def __init__(self, window=200, dof=6, latent_features=6, alpha=0.1):
         """
         """
-        super(VAE, self).__init__()
+        super().__init__()
         self.window = window
         self.dof = dof
         self.latent_features = latent_features
         self.alpha = alpha
         self.encoder = self._encoder()
         # print summary of encoder model
-        # self.encoder.summary() 
+        # self.encoder.summary()
         self.decoder = self._decoder()
         # print summary of encoder model
         # self.decoder.summary()
@@ -45,7 +45,7 @@ class VAE(tf.keras.Model):
             self.latent_features, name='log_variance')(encoder)
         latent_encoding = tf.keras.layers.Lambda(utils.sample_latent_features)(
             [distribution_mean, distribution_variance])
-        encoder_model = tf.keras.Model(input, latent_encoding)
+        encoder_model = tf.keras.Model(input_layer, latent_encoding)
 
         return encoder_model
 
@@ -65,6 +65,6 @@ class VAE(tf.keras.Model):
         decoder = tf.keras.layers.UpSampling1D(5)(decoder)
         decoder_output = tf.keras.layers.Conv1DTranspose(6, 6)(decoder)
         decoder_output = tf.keras.layers.LeakyReLU(self.alpha)(decoder_output)
-        decoder_model = tf.keras.Model(input, decoder_output)
+        decoder_model = tf.keras.Model(input_layer, decoder_output)
 
         return decoder_model
