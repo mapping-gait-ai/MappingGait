@@ -1,4 +1,3 @@
-from unittest import TestCase # pylint: disable=unused-import
 import gait_mapper
 import gait_mapper.vae
 
