@@ -1,28 +1,16 @@
 ## Badges
+[![github repo badge](https://img.shields.io/badge/github-repo-000.svg?logo=github&labelColor=gray&color=blue)](https://github.com/mapping-gait-ai/gait-mapper)
+[![github license badge](https://img.shields.io/github/license/mapping-gait-ai/gait-mapper)](https://github.com/mapping-gait-ai/gait-mapper)
+[![fair-software badge](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8B-yellow)](https://fair-software.eu)
+[![build](https://github.com/mapping-gait-ai/gait-mapper/actions/workflows/build.yml/badge.svg)](https://github.com/mapping-gait-ai/gait-mapper/actions/workflows/build.yml)
+[![cffconvert](https://github.com/mapping-gait-ai/gait-mapper/actions/workflows/cffconvert.yml/badge.svg)](https://github.com/mapping-gait-ai/gait-mapper/actions/workflows/cffconvert.yml)
+[![sonarcloud](https://github.com/mapping-gait-ai/gait-mapper/actions/workflows/sonarcloud.yml/badge.svg)](https://github.com/mapping-gait-ai/gait-mapper/actions/workflows/sonarcloud.yml)
+[![markdown-link-check](https://github.com/mapping-gait-ai/gait-mapper/actions/workflows/markdown-link-check.yml/badge.svg)](https://github.com/mapping-gait-ai/gait-mapper/actions/workflows/markdown-link-check.yml)
+[![DOI](https://zenodo.org/badge/DOI/<replace-with-created-DOI>.svg)](https://doi.org/<replace-with-created-DOI>)
 
-(Customize these badges with your own links, and check https://shields.io/ or https://badgen.net/ to see which other badges are available.)
+## Gait Mapper
 
-| fair-software.eu recommendations | |
-| :-- | :--  |
-| (1/5) code repository              | [![github repo badge](https://img.shields.io/badge/github-repo-000.svg?logo=github&labelColor=gray&color=blue)](https://github.com/mapping-gait-ai/gait-mapper) |
-| (2/5) license                      | [![github license badge](https://img.shields.io/github/license/mapping-gait-ai/gait-mapper)](https://github.com/mapping-gait-ai/gait-mapper) |
-| (3/5) community registry           | [![RSD](https://img.shields.io/badge/rsd-gait_mapper-00a3e3.svg)](https://www.research-software.nl/software/gait_mapper) [![workflow pypi badge](https://img.shields.io/pypi/v/gait_mapper.svg?colorB=blue)](https://pypi.python.org/project/gait_mapper/) |
-| (4/5) citation                     | [![DOI](https://zenodo.org/badge/DOI/<replace-with-created-DOI>.svg)](https://doi.org/<replace-with-created-DOI>) |
-| (5/5) checklist                    | [![workflow cii badge](https://bestpractices.coreinfrastructure.org/projects/<replace-with-created-project-identifier>/badge)](https://bestpractices.coreinfrastructure.org/projects/<replace-with-created-project-identifier>) |
-| howfairis                          | [![fair-software badge](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8B-yellow)](https://fair-software.eu) |
-| **Other best practices**           | &nbsp; |
-| Static analysis                    | [![workflow scq badge](https://sonarcloud.io/api/project_badges/measure?project=mapping-gait-ai_gait-mapper&metric=alert_status)](https://sonarcloud.io/dashboard?id=mapping-gait-ai_gait-mapper) |
-| Coverage                           | [![workflow scc badge](https://sonarcloud.io/api/project_badges/measure?project=mapping-gait-ai_gait-mapper&metric=coverage)](https://sonarcloud.io/dashboard?id=mapping-gait-ai_gait-mapper) |
-| Documentation                      | [![Documentation Status](https://readthedocs.org/projects/gait-mapper/badge/?version=latest)](https://gait-mapper.readthedocs.io/en/latest/?badge=latest) |
-| **GitHub Actions**                 | &nbsp; |
-| Build                              | [![build](https://github.com/mapping-gait-ai/gait-mapper/actions/workflows/build.yml/badge.svg)](https://github.com/mapping-gait-ai/gait-mapper/actions/workflows/build.yml) |
-| Citation data consistency               | [![cffconvert](https://github.com/mapping-gait-ai/gait-mapper/actions/workflows/cffconvert.yml/badge.svg)](https://github.com/mapping-gait-ai/gait-mapper/actions/workflows/cffconvert.yml) |
-| SonarCloud                         | [![sonarcloud](https://github.com/mapping-gait-ai/gait-mapper/actions/workflows/sonarcloud.yml/badge.svg)](https://github.com/mapping-gait-ai/gait-mapper/actions/workflows/sonarcloud.yml) |
-| MarkDown link checker              | [![markdown-link-check](https://github.com/mapping-gait-ai/gait-mapper/actions/workflows/markdown-link-check.yml/badge.svg)](https://github.com/mapping-gait-ai/gait-mapper/actions/workflows/markdown-link-check.yml) |
-
-## How to use gait_mapper
-
-Short description of package
+This package is designed for **Mapping human gait using unsupervised AI**.
 
 The project setup is documented in [project_setup.md](project_setup.md). Feel free to remove this document (and/or the link to this document) if you don't need it.
 
@@ -48,4 +36,3 @@ have a look at the [contribution guidelines](CONTRIBUTING.md).
 ## Credits
 
 This package was created with [Cookiecutter](https://github.com/audreyr/cookiecutter) and the [NLeSC/python-template](https://github.com/NLeSC/python-template).
-# gait-mapper
