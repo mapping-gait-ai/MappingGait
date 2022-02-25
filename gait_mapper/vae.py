@@ -1,5 +1,4 @@
 import tensorflow as tf
-from gait_mapper import utils
 
 
 class VAE(tf.keras.Model):
@@ -52,7 +51,7 @@ class VAE(tf.keras.Model):
             self.latent_features, name='mean')(encoder)
         distribution_variance = tf.keras.layers.Dense(
             self.latent_features, name='log_variance')(encoder)
-        latent_encoding = tf.keras.layers.Lambda(utils.sample_latent_features)(
+        latent_encoding = tf.keras.layers.Lambda(self._sample_latent_features)(
             [distribution_mean, distribution_variance])
         encoder_model = tf.keras.Model(input_layer, latent_encoding)
 
@@ -77,3 +76,21 @@ class VAE(tf.keras.Model):
         decoder_model = tf.keras.Model(input_layer, decoder_output)
 
         return decoder_model
+
+    def _sample_latent_features(self, distribution):
+        """
+        Sample latent features in the latent space.
+        The latent space is follows a Gaussian distribution, which is defiend by
+        its mean and variance.
+
+        Args:
+            distribution (list): A list containing mean and variance of a Gaussian distribution.
+
+        Returns:
+            Tensors.
+        """        
+        distribution_mean, distribution_variance = distribution
+        batch_size = tf.shape(distribution_variance)[0]
+        random = tf.keras.backend.random_normal(
+            shape=(batch_size, tf.shape(distribution_variance)[1]))
+        return distribution_mean + tf.exp(0.5 * distribution_variance) * random
