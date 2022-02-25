@@ -13,6 +13,7 @@ class VAE(tf.keras.Model):
             degrees_of_freedom (int): Degrees of freedom included in the input signal.
             latent_features (int): Number of latent features to be encoded.
             alpha (int): Negative slope coefficient of the leaky version of a Rectified Linear Unit.
+
         Returns:
             Encoder and decoder networks.
         """
@@ -27,9 +28,89 @@ class VAE(tf.keras.Model):
         self.decoder = self._decoder()
         # print summary of encoder model
         # self.decoder.summary()
+        self.total_loss_tracker = tf.keras.metrics.Mean(name="total_loss")
+        self.reconstruction_loss_tracker = tf.keras.metrics.Mean(
+            name="reconstruction_loss"
+        )
+        self.kl_loss_tracker = tf.keras.metrics.Mean(name="kl_loss")
+
+    def train_step(self, data):
+        """Customize the logic for one training step.
+
+        This method overrides `tf.keras.Model.train_step`.
+        For concrete examples of how to override this method see
+        [Customizing what happends in fit](https://www.tensorflow.org/guide/keras/customizing_what_happens_in_fit).
+
+        Args:
+            data: A nested structure of `Tensor`s.
+
+        Returns:
+            A `dict` containing values that will be passed to
+            `tf.keras.callbacks.CallbackList.on_train_batch_end`. Typically, the
+            values of the `Model`'s metrics are returned. Example:
+            `{'loss': 0.2, 'accuracy': 0.7}`.
+        """
+        with tf.GradientTape() as tape:
+            z, z_mean, z_var = self.encoder(data)
+            reconstruction = self.decoder(z)
+            reconstruction_loss = tf.reduce_mean(tf.keras.losses.mse(data, reconstruction))
+            kl_loss = -0.5 * tf.reduce_mean(
+                z_var - tf.square(z_mean) - tf.exp(z_var) + 1
+            )
+            total_loss = reconstruction_loss + kl_loss
+        grads = tape.gradient(total_loss, self.trainable_weights)
+        self.optimizer.apply_gradients(zip(grads, self.trainable_weights))
+        self.total_loss_tracker.update_state(total_loss)
+        self.reconstruction_loss_tracker.update_state(reconstruction_loss)
+        self.kl_loss_tracker.update_state(kl_loss)
+        return {
+            "loss": self.total_loss_tracker.result(),
+            "reconstruction_loss": self.reconstruction_loss_tracker.result(),
+            "kl_loss": self.kl_loss_tracker.result(),
+        }
+
+    @property
+    def metrics(self):
+        """Customize metrics.
+
+        List `Metric` objects here to make `tf.keras.metrics.Metric.reset_states()`
+        called automatically at the start of each epoch or `evaluate()`.
+        If you don't implement this property, you have to call `reset_states()`
+        yourself at the time of your choosing.
+        """
+        return [
+            self.total_loss_tracker,
+            self.reconstruction_loss_tracker,
+            self.kl_loss_tracker,
+        ]
+
+    def call(self, inputs):
+        """Calls the model on new inputs and returns the outputs as tensors.
+
+        This method overrides `tf.keras.Model.call`, which is required when
+        subclassing `tf.keras.Model`.
+
+        Note: This method should not be called directly.
+
+        Args:
+            inputs: Input tensor, or dict/list/tuple of input tensors.
+
+        Returns:
+            A tensor if there is a single output, or
+            a list of tensors if there are more than one outputs.
+        """
+        z, z_mean, z_var = self.encoder(inputs)
+        reconstructed = self.decoder(z)
+        kl_loss = -0.5 * tf.reduce_mean(
+            z_var - tf.square(z_mean) - tf.exp(z_var) + 1
+        )
+        self.add_loss(kl_loss)
+        return reconstructed
 
     def _encoder(self):
         """Encoder of the gait mapper.
+
+        Note: The output of model is latent features and their distribution.
         """
         input_layer = tf.keras.layers.Input(shape=(self.window_length, self.degrees_of_freedom))
         encoder = tf.keras.layers.Conv1D(
@@ -53,7 +134,7 @@ class VAE(tf.keras.Model):
             self.latent_features, name='log_variance')(encoder)
         latent_encoding = tf.keras.layers.Lambda(self._sample_latent_features)(
             [distribution_mean, distribution_variance])
-        encoder_model = tf.keras.Model(input_layer, latent_encoding)
+        encoder_model = tf.keras.Model(input_layer, [latent_encoding, distribution_mean, distribution_variance])
 
         return encoder_model
 
@@ -88,7 +169,7 @@ class VAE(tf.keras.Model):
 
         Returns:
             Tensors.
-        """        
+        """
         distribution_mean, distribution_variance = distribution
         batch_size = tf.shape(distribution_variance)[0]
         random = tf.keras.backend.random_normal(
