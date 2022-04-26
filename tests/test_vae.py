@@ -13,7 +13,7 @@ class TestGaitMapper(unittest.TestCase):
         self.window_length = 200
         # degree_of_freedom
         self.dof = 6
-        self.latent_features = 6
+        self.latent_features = 2
         self.data = Path(data_folder,
             "stored_groupsplit_withoutS01722_latentfeatures_2_frequency_20.npy")
 
